@@ -277,9 +277,9 @@ getAudioBuffer(url).then((arrayBuffer) => {
   let audioBuffer = decode(arrayBuffer);
   let buff = audioBuffer.channelData[0];
   // import python function
-  let getSpectrogram = pyodide.pyimport('spectrogram');
-  let spectrogram = getSpectrogram(buff, 10, 20, 16000)
-  console.log(spectrogram);
+  let spectrogram = pyodide.pyimport('spectrogram');
+  let result = spectrogram(buff, 10, 20, 16000)
+  console.log(result);
 })
 
 %% md
@@ -435,16 +435,16 @@ function stop(){
   let finalWavBuffer = getWAV(audioBuffer, recordingLength, sampleRate, context);
   
   // Get our spectrogram from python
-  const getSpectrogram = pyodide.pyimport('spectrogram');
+  const spectrogram = pyodide.pyimport('spectrogram');
   
   let startTime = new Date().getTime();
   
-  let spectrogram = getSpectrogram(finalWavBuffer, 10, 20, sampleRate)
+  let result = spectrogram(finalWavBuffer, 10, 20, sampleRate)
   
   let endTime = new Date().getTime();
   let elapsedTime = (endTime - startTime) / 1000;
   
-  console.log(spectrogram);
+  console.log(result);
   
   // show results
   result.textContent = `Spectrogram feature was successfully extracted in ${elapsedTime} seconds`;
